@@ -1,0 +1,10 @@
+E2E ML projects
+
+1. Data Ingestion
+2. Data Transformation
+3. Model Trainer
+4. Model Eva;uation
+5. Model Deployment
+
+CI/CD pipelines - Github Actions 
+Deployment - AWS

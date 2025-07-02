@@ -1,0 +1,25 @@
+[project]
+name = "mlproject"
+version = "0.0.1"
+authors = [
+    { name="Md Shahid", email="shahidsmohammed47@gmail.com" }
+]
+description = "ML project packaged for development"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "pandas",
+    "numpy",
+    "scikit-learn",
+    "scipy",
+    "matplotlib",
+    "seaborn",
+    "statsmodels",
+    "jupyter",
+    "tensorflow",
+    "torch"
+]
+
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
