@@ -6,12 +6,18 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 
+# -----------------------------
+# DataIngestionConfig holds only file paths as configuration
+# -----------------------------
 @dataclass
 class DataIngestionConfig:
     train_data_path: str = os.path.join('artifacts', 'train.csv')
     test_data_path: str = os.path.join('artifacts', 'test.csv')
     raw_data_path: str = os.path.join('artifacts', 'data.csv')
 
+# -----------------------------
+# DataIngestion handles the ingestion logic
+# -----------------------------
 class DataIngestion:
     def __init__(self):
         self.ingestion_config = DataIngestionConfig()
@@ -39,8 +45,45 @@ class DataIngestion:
 
         except Exception as e:
             logging.error("Error occurred during data ingestion")
-            raise CustomExceptions(e, sys)
+            raise CustomException(e, sys)  # Fixed typo: CustomExceptions -> CustomException
 
+# -----------------------------
+# DataTransformationConfig holds transformation config (e.g., file paths)
+# -----------------------------
+@dataclass
+class DataTransformationConfig:
+    preprocessor_obj_file_path: str = os.path.join('artifacts', 'preprocessor.pkl')
+
+# -----------------------------
+# DataTransformation handles transformation logic
+# -----------------------------
+class DataTransformation:
+    def __init__(self, config: DataTransformationConfig):
+        self.config = config
+
+    def get_data_transformer_object(self):
+        # Example: return a scikit-learn ColumnTransformer or Pipeline
+        from sklearn.preprocessing import StandardScaler
+        from sklearn.compose import ColumnTransformer
+
+        # Dummy example for demonstration
+        preprocessor = ColumnTransformer(
+            transformers=[
+                ('num', StandardScaler(), ['feature1', 'feature2'])
+            ]
+        )
+        return preprocessor
+
+# -----------------------------
+# Main execution block
+# -----------------------------
 if __name__ == "__main__":
+    # Data ingestion
     data_ingestion = DataIngestion()
-    data_ingestion.initiate_data_ingestion()
+    train_data_path, test_data_path, raw_data_path = data_ingestion.initiate_data_ingestion()
+
+    # Data transformation
+    data_transformation_config = DataTransformationConfig()
+    data_transformation = DataTransformation(data_transformation_config)
+    preprocessor_obj = data_transformation.get_data_transformer_object()
+    # Now preprocessor_obj is ready to use for fit/transform
